@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shooter</title>
+    <link rel="icon" href="Sprites/pointer.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=1000, height=600, user-scalable=no">
+
+</head>
+
+<body>
+    <div id="game-container">
+        <form id="main">
+            <img src="Sprites/shooter.png" alt="">
+            <input class="form-input" type="text" name="username" id="username" placeholder="Input Username">
+            <select class="form-input" name="level" id="level">
+                <option value="" disabled selected>Select Level</option>
+                <option value="1">Easy</option>
+                <option value="2">Medium</option>
+                <option value="3">Hard</option>
+            </select>
+            <div>
+                <label for="weapon1" class="radioSelector">
+                    <input type="radio" name="weapon" id="weapon1" value="1">
+                    <img src="Sprites/gun1.png" alt="gun1">
+                </label>
+                <label for="weapon2" class="radioSelector">
+                    <input type="radio" name="weapon" id="weapon2" value="2">
+                    <img src="Sprites/gun2.png" alt="gun2">
+                </label>
+            </div>
+            <div>
+                <label for="target1" class="radioSelector">
+                    <input type="radio" name="target" id="target1" value="1">
+                    <img src="Sprites/target1.png" alt="target1">
+                </label>
+                <label for="target2" class="radioSelector">
+                    <input type="radio" name="target" id="target2" value="2">
+                    <img src="Sprites/target2.png" alt="target2">
+                </label>
+                <label for="target3" class="radioSelector">
+                    <input type="radio" name="target" id="target3" value="3">
+                    <img src="Sprites/target3.png" alt="target3">
+                </label>
+            </div>
+            <div>
+                <button class="btn btn-1" type="submit">Play Game</button>
+                <button class="btn btn-2" type="button" onclick="modal.show('How To Play Game', `
+                <ol>
+                    <li>Input Username</li>
+                    <li>Point the pointer at the target</li>
+                    <li>Click to shoot</li>
+                    <li>Get as many points as possible</li>
+                    <li>Enjoy!</li>
+                </ol>
+                `)">Instruction</button>
+            </div>
+        </form>
+
+        <div class="hidden" id="game">
+            <div id="loading">
+                <div id="loading-time" class="loading-time"></div>
+            </div>
+            <section id="game-preview">
+                <nav id="navbar">
+                    <h1 id="player-name">Player Name</h1>
+                    <h1 id="score">Score: 0</h1>
+                    <h1 id="timer">Time: 00:30</h1>
+                </nav>
+                <div id="weapon-element"></div>
+            </section>
+            <div id="sidebar">
+                <h2>LEADERBOARD</h2>
+                <select name="filters" class="form-input" id="filters">
+                    <option value="1" selected>Score</option>
+                    <option value="2">Last Matches</option>
+                </select>
+                <ul id="leaderboard">
+                </ul>
+            </div>
+        </div>
+        <!-- Modal Instruction -->
+        <div id="modal" class="hidden">
+            <div class="modal-box">
+                <span class="modal-header" id="modal-header">
+                </span>
+                <div id="modal-content">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
