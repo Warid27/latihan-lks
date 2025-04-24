@@ -131,6 +131,7 @@ input[type="radio"] {
 .hidden {
     visibility: hidden !important;
     display: none !important;
+    pointer-events: none !important;
 }
 
 #modal {
@@ -264,21 +265,21 @@ table tr td:nth-child(3) {
     left: 50%;
     width: 100px;
     height: 100px;
-    /* background: url('./Sprites/target1.png');
-    background-size: cover;
-    background-position: center; */
 }
 
-.hitEffect{
+.hitEffect {
     position: absolute;
-    width: 50px;
-    height: 50px;
-    background: url('./Sprites/boom.png');
-    background-size: cover;
-    background-position: center;
+    width: 30px;
+    height: 30px;
+    background: url('./Sprites/boom.png') no-repeat center center / contain;
     pointer-events: none;
-    z-index: 100;
-    transform: translate(-50%, -315%);
+    transform: translate(-50%, -50%);
+    animation: pop 0.5s ease-out forwards;
+}
+
+@keyframes pop {
+    0%   { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
 }
 .game-target input[type="checkbox"]{
     display: none;
@@ -310,6 +311,7 @@ table tr td:nth-child(3) {
     gap: 1rem;
     width: 25%;
     cursor: default;
+    z-index: 100;
 }
 #sidebar #filters{
     width: 100%;

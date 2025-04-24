@@ -44,9 +44,9 @@ const CONFIG = {
 const helpers = {
     clearForm() {
         document.getElementById('username').value = '';
-        
+
         document.getElementById('level').selectedIndex = 0;
-        
+
         document.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.checked = false;
         });
@@ -62,25 +62,22 @@ const helpers = {
     },
 
     filterLeaderboard() {
-        const selectElement = elements.filters // Get the <select> element
+        const selectElement = elements.filters
         if (!selectElement) return [];
 
         const leaderboard = gameState.leaderboard;
 
         if (leaderboard.length === 0) return [];
 
-        const selectedValue = selectElement.value; // Get the selected value ("1" or "2")
+        const selectedValue = selectElement.value;
 
-        // Filter logic based on the selected value
-        if (selectedValue === "1") {
-            // Sort by score (high to low)
+        if (selectedValue == "1") {
             return [...leaderboard].sort((a, b) => b.score - a.score);
-        } else if (selectedValue === "2") {
-            // Sort by index (last matches first)
+        } else if (selectedValue == "2") {
             return [...leaderboard].reverse();
         }
 
-        return leaderboard; // Default case (shouldn't occur)
+        return leaderboard;
     },
 
     getLeaderboard() {
@@ -106,7 +103,7 @@ const helpers = {
     },
 
     updateLeaderboardUI(filteredLeaderboard) {
-        const leaderboardContainer = document.getElementById("leaderboard"); // Get the <ul> container
+        const leaderboardContainer = elements.leaderboard; // Get the <ul> container
         if (!leaderboardContainer) return;
 
         // Clear the current leaderboard display
@@ -139,7 +136,7 @@ const helpers = {
         divWrapper.appendChild(leaderboardScore);
         liWrapper.appendChild(divWrapper);
         liWrapper.appendChild(buttonDetails);
-        document.getElementById("leaderboard").appendChild(liWrapper);
+        elements.leaderboard.appendChild(liWrapper);
     },
 
     getDetails(index) {
@@ -274,15 +271,26 @@ const game = {
         this.clear();
     },
 
-    hitTarget(event) {
+    hitTarget(e) {
         const hitEffect = document.createElement("span");
         hitEffect.classList.add("hitEffect");
-        hitEffect.style.left = `${event.clientX}px`;
-        hitEffect.style.top = `${event.clientY}px`;
+    
+        const rect = elements.gamePreview.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+    
+        // Clamp inside the container bounds
+        const clampedX = Math.max(0, Math.min(x, elements.gamePreview.clientWidth));
+        const clampedY = Math.max(0, Math.min(y, elements.gamePreview.clientHeight));
+    
+        hitEffect.style.left = `${clampedX}px`;
+        hitEffect.style.top = `${clampedY}px`;
+    
         elements.gamePreview.appendChild(hitEffect);
-
-        setTimeout(() => hitEffect.remove(), 250);
-    },
+    
+        // Remove after effect duration
+        setTimeout(() => hitEffect.remove(), 500);
+    },    
 
     createTarget(index, disappearInterval) {
         if (!gameState.isActive || !gameState.isPlaying) return;
@@ -301,6 +309,10 @@ const game = {
         const translateX = helpers.getRandomInRange(-300, 250);
         const translateY = helpers.getRandomInRange(-250, 50);
 
+        const size = helpers.getRandomInRange(50, 100);
+
+        label.style.width = `${size}px`
+        label.style.height = `${size}px`
         label.style.background = `url('./Sprites/${gameState.selectedTarget}.png')`;
         label.style.backgroundSize = "cover";
         label.style.backgroundPosition = "center";
@@ -466,6 +478,22 @@ document.addEventListener('keydown', function (event) {
           `, true);
     }
 });
+
+elements.gamePreview.addEventListener('mousemove', (e) => {
+    if (gameState.isActive && gameState.isPlaying) {
+
+        const gamePreviewRect = elements.gamePreview.getBoundingClientRect();
+        const xClient = e.clientX - gamePreviewRect.left;
+
+        const clampedX = Math.max(0, Math.min(xClient, elements.gamePreview.clientWidth))
+
+        const offset = 30;
+
+        elements.weapon.style.left = `${clampedX + offset}px`;
+    }
+})
+
+elements.gamePreview.addEventListener('mouseleave', () => { })
 
 // Initialize game UI
 if (!gameState.isActive) {
