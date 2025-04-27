@@ -1,0 +1,26 @@
+label {
+   font-size: 14px;;
+} 
+th, caption {
+   font-size: 14px; 
+} 
+a.card {
+   text-decoration: none;
+   color: inherit;
+}
+.login {
+   min-height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100vw; 
+}
+.form-control:disabled, .form-select:disabled, textarea:disabled {
+   background-color: #f5f5f5;
+}
+.btn-group-with-gap .btn {
+   margin-right: 0.5rem; /* Adjust the gap size as needed */
+}
+.btn-group-with-gap .btn:last-child {
+   margin-right: 0; /* Remove margin from the last button */
+}
